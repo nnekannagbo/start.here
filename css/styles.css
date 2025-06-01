@@ -35,6 +35,12 @@ a.content:active {
   margin: 0px;
 }
 
+.project-links details p {
+  /* font-family: "Times New Roman", serif; */
+  font-size: 20px;
+}
+
+
 figcaption {
   font-family: "Times New Roman";
 	font-size: 20px;
