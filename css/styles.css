@@ -122,7 +122,7 @@ figcaption {
 
 .contact {
   overflow-wrap: break-word;
-  word-break: break-word;
+  /* word-break: break-word; */
 }
 
 
