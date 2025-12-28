@@ -55,7 +55,7 @@ a.content:active {
   margin-bottom: 60px;
 }
 #back-to-start:hover { 
-  font-family: 'Press Start 2P', cursive; 
+  font-family: 'Press Start 2P', monospace; 
   font-size: 24px; 
 }
 
