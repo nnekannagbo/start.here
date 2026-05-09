@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Breathing room</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: white;
+      font-family: monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* #text {
+      position: absolute;
+      bottom: 40px;
+      text-align: center;
+      width: 100%;
+      opacity: 0.7;
+      letter-spacing: 2px;
+    } */
+
+    #text {
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+  text-align: center;
+  font-family: monospace;
+  color: white;
+  font-size: 14px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+    #clock {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-family: monospace;
+  color: white;
+  opacity: 0.7;
+  letter-spacing: 2px;
+}
+
+#centerVideo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(80vw, 400px);
+  opacity: 0.8;
+}
+
+a:link,
+a:visited {
+  color: white;
+  opacity: 0.6;
+}
+
+a:hover {
+  opacity: 1;
+}
+  </style>
+</head>
+<body>
+<div id="clock"></div>
+<video id="centerVideo" autoplay loop muted playsinline>
+  <source src="/assets/video/window.MOV" type="video/mp4">
+</video>
+<div id="text"><a href="https://somethingliveshere.com" style="opacity:0.6; color:white;" target="_blank">
+  something lives here</a>, <span style="opacity:0.6; color:white;">click to listen</span>. <br>drone day 2026</div>
+
+<script>
+let audioCtx;
+let osc1, osc2;
+let gain;
+let started = false;
+
+function startDrone() {
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  osc1 = audioCtx.createOscillator();
+  osc1.type = "sine";
+  osc1.frequency.value = 55;
+
+  osc2 = audioCtx.createOscillator();
+  osc2.type = "sine";
+  osc2.frequency.value = 55.5;
+
+  gain = audioCtx.createGain();
+  gain.gain.value = 0.08;
+
+  osc1.connect(gain);
+  osc2.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  osc1.start();
+  osc2.start();
+
+  setInterval(() => {
+    let drift = Math.sin(Date.now() * 0.0001) * 3;
+    osc1.frequency.setValueAtTime(55 + drift, audioCtx.currentTime);
+    osc2.frequency.setValueAtTime(55.5 - drift, audioCtx.currentTime);
+  }, 200);
+}
+
+document.body.addEventListener("click", async () => {
+  if (!started) {
+    startDrone();
+    started = true;
+  }
+
+  if (audioCtx && audioCtx.state === "suspended") {
+    await audioCtx.resume();
+  }
+});
+
+// CLOCK starts
+function updateClock() {
+  const now = new Date();
+
+  let hours = now.getHours();
+  let minutes = now.getMinutes();
+  let seconds = now.getSeconds();
+
+  // pad with zeros
+  hours = String(hours).padStart(2, "0");
+  minutes = String(minutes).padStart(2, "0");
+  seconds = String(seconds).padStart(2, "0");
+
+  document.getElementById("clock").textContent =
+    `${hours}:${minutes}:${seconds}`;
+
+  requestAnimationFrame(updateClock);
+}
+
+updateClock();
+</script>
+
+</body>
+</html>
