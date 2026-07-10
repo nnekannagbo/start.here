@@ -87,5 +87,37 @@
 
 <p class="contact">contact: nneka.nnagbo@gmail.<wbr>com</p>
 
+<br>
+<br>
 
-</body></html>
+<div class="audio-wrapper">
+  <!-- Your audio player -->
+  <audio id="poetic-audio" controls src="/sound/field-records/assets/Bugs on deer farm go zip.m4a"></audio>
+  
+  <!-- The text that will appear below it -->
+  <p id="reveal-text" style="display: none; margin-top: 12px; font-size: small;">
+    <em>Deer Farm (Summer)</em> - 2025
+  </p>
+</div>
+
+
+</body>
+<!-- audio text script -->
+<script>
+  const audioNode = document.getElementById('poetic-audio');
+  const textNode = document.getElementById('reveal-text');
+
+  // When the user hits play, show the text
+  audioNode.addEventListener('play', () => {
+    textNode.style.display = 'block';
+  });
+
+  // Optional: If you want the text to vanish again when they hit pause, 
+  // you can uncomment the lines below:
+  
+  audioNode.addEventListener('pause', () => {
+    textNode.style.display = 'none';
+  });
+  
+</script>
+</html>
